@@ -60,10 +60,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['kirim_pesan'])) {
         .text-navy { color: #051094; }
         .form-input {
             width: 100%;
-            padding: 1rem;
+            padding: 0.75rem 1rem; /* Adjusted padding for mobile responsiveness */
             border: 1px solid #e5e7eb;
             border-radius: 0.5rem;
             transition: all 0.3s;
+            font-size: 0.875rem; /* Default text-sm */
+        }
+        @media (min-width: 768px) {
+            .form-input { padding: 1rem; font-size: 1rem; }
         }
         .form-input:focus {
             outline: none;
@@ -75,100 +79,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['kirim_pesan'])) {
 <body class="bg-white">
     <?php include "includes/navbar.php"; ?>
 
-    <section class="relative bg-cover bg-center text-white h-[50vh]" style="background-image: url('assets/header.jpg');">
+    <section class="relative bg-cover bg-center text-white h-[35vh] md:h-[50vh]" style="background-image: url('assets/header.jpg');">
         <div class="absolute inset-0 bg-[#051094]/70"></div>
         <div class="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
             <div class="text-center animate-fade-in-up">
-                <span class="inline-block tracking-[0.3em] uppercase text-sm mb-4 text-blue-200 font-semibold">Get In Touch</span>
-                <h1 class="text-5xl md:text-6xl font-bold hero-font">Hubungi Kami</h1>
+                <span class="inline-block tracking-[0.3em] uppercase text-[10px] md:text-sm mb-2 md:mb-4 text-blue-200 font-semibold">Get In Touch</span>
+                <h1 class="text-3xl md:text-6xl font-bold hero-font">Hubungi Kami</h1>
             </div>
         </div>
     </section>
 
-    <section class="py-24">
+    <section class="py-12 md:py-24">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
                 
-                <div class="space-y-10">
+                <div class="space-y-8 md:space-y-10">
                     <div>
-                        <div class="w-12 h-1 bg-navy mb-6"></div>
-                        <h2 class="text-4xl font-bold text-gray-900 hero-font mb-4">Mari Berkolaborasi</h2>
-                        <p class="text-gray-500 text-lg leading-relaxed">
+                        <div class="w-12 h-1 bg-navy mb-4 md:mb-6"></div>
+                        <h2 class="text-2xl md:text-4xl font-bold text-gray-900 hero-font mb-2 md:mb-4">Mari Berkolaborasi</h2>
+                        <p class="text-gray-500 text-sm md:text-lg leading-relaxed">
                             Kami siap mendengarkan kebutuhan event Anda.
                         </p>
                     </div>
 
-                    <div class="space-y-6">
-                        <div class="flex items-start gap-6 group">
-                            <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-navy text-xl group-hover:bg-navy group-hover:text-white transition-all duration-300">
+                    <div class="space-y-4 md:space-y-6">
+                        <div class="flex items-start gap-4 md:gap-6 group">
+                            <div class="w-10 h-10 md:w-14 md:h-14 bg-blue-50 rounded-full flex items-center justify-center text-navy text-sm md:text-xl group-hover:bg-navy group-hover:text-white transition-all duration-300 flex-shrink-0">
                                 <i class="fa-solid fa-location-dot"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-1 hero-font">Head Office</h3>
-                                <p class="text-gray-500 w-3/4"><?= htmlspecialchars($profil['alamat']) ?></p>
+                                <h3 class="text-base md:text-xl font-bold text-gray-900 mb-1 hero-font">Head Office</h3>
+                                <p class="text-xs md:text-base text-gray-500 w-full md:w-3/4"><?= htmlspecialchars($profil['alamat']) ?></p>
                             </div>
                         </div>
 
                         <?php if(!empty($profil['alamat_cabang'])): ?>
-                        <div class="flex items-start gap-6 group">
-                            <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-navy text-xl group-hover:bg-navy group-hover:text-white transition-all duration-300">
+                        <div class="flex items-start gap-4 md:gap-6 group">
+                            <div class="w-10 h-10 md:w-14 md:h-14 bg-blue-50 rounded-full flex items-center justify-center text-navy text-sm md:text-xl group-hover:bg-navy group-hover:text-white transition-all duration-300 flex-shrink-0">
                                 <i class="fa-solid fa-map-location-dot"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-1 hero-font">Branch Office</h3>
-                                <p class="text-gray-500 w-3/4"><?= htmlspecialchars($profil['alamat_cabang']) ?></p>
+                                <h3 class="text-base md:text-xl font-bold text-gray-900 mb-1 hero-font">Branch Office</h3>
+                                <p class="text-xs md:text-base text-gray-500 w-full md:w-3/4"><?= htmlspecialchars($profil['alamat_cabang']) ?></p>
                             </div>
                         </div>
                         <?php endif; ?>
 
-                        <div class="flex items-start gap-6 group">
-                            <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-navy text-xl group-hover:bg-navy group-hover:text-white transition-all duration-300">
+                        <div class="flex items-start gap-4 md:gap-6 group">
+                            <div class="w-10 h-10 md:w-14 md:h-14 bg-blue-50 rounded-full flex items-center justify-center text-navy text-sm md:text-xl group-hover:bg-navy group-hover:text-white transition-all duration-300 flex-shrink-0">
                                 <i class="fa-solid fa-envelope"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-1 hero-font">Email</h3>
-                                <p class="text-gray-500"><?= htmlspecialchars($profil['email']) ?></p>
+                                <h3 class="text-base md:text-xl font-bold text-gray-900 mb-1 hero-font">Email</h3>
+                                <p class="text-xs md:text-base text-gray-500"><?= htmlspecialchars($profil['email']) ?></p>
                             </div>
                         </div>
 
-                        <div class="flex items-start gap-6 group">
-                            <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-navy text-xl group-hover:bg-navy group-hover:text-white transition-all duration-300">
+                        <div class="flex items-start gap-4 md:gap-6 group">
+                            <div class="w-10 h-10 md:w-14 md:h-14 bg-blue-50 rounded-full flex items-center justify-center text-navy text-sm md:text-xl group-hover:bg-navy group-hover:text-white transition-all duration-300 flex-shrink-0">
                                 <i class="fa-solid fa-phone"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-1 hero-font">Telepon / WhatsApp</h3>
-                                <p class="text-gray-500"><?= htmlspecialchars($profil['telepon']) ?></p>
+                                <h3 class="text-base md:text-xl font-bold text-gray-900 mb-1 hero-font">Telepon / WhatsApp</h3>
+                                <p class="text-xs md:text-base text-gray-500"><?= htmlspecialchars($profil['telepon']) ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100">
-                    <h3 class="text-2xl font-bold text-gray-900 hero-font mb-6">Kirim Pesan</h3>
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl shadow-xl border border-gray-100">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 hero-font mb-4 md:mb-6">Kirim Pesan</h3>
                     
-                    <form action="" method="POST" class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form action="" method="POST" class="space-y-4 md:space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
+                                <label class="block text-xs md:text-sm font-semibold text-gray-700 mb-1 md:mb-2">Nama Lengkap</label>
                                 <input type="text" name="nama" required class="form-input" placeholder="Nama Anda">
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Email</label>
+                                <label class="block text-xs md:text-sm font-semibold text-gray-700 mb-1 md:mb-2">Alamat Email</label>
                                 <input type="email" name="email" required class="form-input" placeholder="email@contoh.com">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Subjek</label>
+                            <label class="block text-xs md:text-sm font-semibold text-gray-700 mb-1 md:mb-2">Subjek</label>
                             <input type="text" name="subjek" required class="form-input" placeholder="Misal: Tanya Harga Sewa LED">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Pesan Anda</label>
-                            <textarea name="pesan" rows="5" required class="form-input" placeholder="Tuliskan detail kebutuhan event Anda..."></textarea>
+                            <label class="block text-xs md:text-sm font-semibold text-gray-700 mb-1 md:mb-2">Pesan Anda</label>
+                            <textarea name="pesan" rows="4" required class="form-input" placeholder="Tuliskan detail kebutuhan event Anda..."></textarea>
                         </div>
 
-                        <button type="submit" name="kirim_pesan" class="w-full bg-navy text-white font-bold py-4 rounded-xl hover:bg-black transition-all duration-300 shadow-lg tracking-wide uppercase text-sm">
+                        <button type="submit" name="kirim_pesan" class="w-full bg-navy text-white font-bold py-3 md:py-4 rounded-xl hover:bg-black transition-all duration-300 shadow-lg tracking-wide uppercase text-xs md:text-sm">
                             Kirim Pesan Sekarang
                         </button>
                     </form>
