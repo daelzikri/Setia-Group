@@ -53,7 +53,7 @@ $sosmed         = $profil['sosial_media'] ?? '#';
                         <i class="fa-brands fa-instagram"></i>
                     </a>
                     <?php endif; ?>
-                    <a href="#" class="w-9 h-9 rounded-full bg-[#051094] text-white flex items-center justify-center hover:bg-black transition-all duration-300 shadow-lg">
+                    <a href="<?= htmlspecialchars($whatsapp) ?>" class="w-9 h-9 rounded-full bg-[#051094] text-white flex items-center justify-center hover:bg-black transition-all duration-300 shadow-lg">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
                 </div>
