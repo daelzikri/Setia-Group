@@ -2,18 +2,17 @@
 require_once "config/database.php";
 
 /**
- * Logika Pengambilan Data Berdasarkan Urutan:
- * 1. Ongoing (Current): Mengambil 3 data terbaru.
- * 2. Archive (Past): Mengambil data setelah 3 data pertama.
- * * Update: Menghapus ketergantungan pada tabel kategori_event
+ * Logika Pengambilan Data:
+ * 1. Ongoing (Current): Mengambil 4 data terbaru (Agar simetris di layout 2 kolom).
+ * 2. Archive (Past): Mengambil data setelah 4 data pertama.
  */
 
-// 1. Ambil 3 Event Terbaru (Ongoing/Current)
-$stmt_ongoing = $pdo->query("SELECT * FROM event ORDER BY tanggal_waktu DESC LIMIT 3");
+// 1. Ambil 4 Event Terbaru (Ongoing/Current)
+$stmt_ongoing = $pdo->query("SELECT * FROM event ORDER BY tanggal_waktu DESC LIMIT 4");
 $ongoing_events = $stmt_ongoing->fetchAll(PDO::FETCH_ASSOC);
 
-// 2. Ambil Sisa Event (Archive/Past) - Melewati 3 data pertama
-$stmt_past = $pdo->query("SELECT * FROM event ORDER BY tanggal_waktu DESC LIMIT 100 OFFSET 3");
+// 2. Ambil Sisa Event (Archive/Past) - Melewati 4 data pertama
+$stmt_past = $pdo->query("SELECT * FROM event ORDER BY tanggal_waktu DESC LIMIT 100 OFFSET 4");
 $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -80,10 +79,10 @@ $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <?php if(count($ongoing_events) > 0): ?>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                 <?php foreach($ongoing_events as $event): ?>
                 <div class="ongoing-border group bg-gray-50 p-6 md:p-8 rounded-tr-[2rem] md:rounded-tr-[3rem] rounded-bl-[1.5rem] md:rounded-bl-[2rem] rounded-br-[1rem] flex flex-col transition-all duration-500 hover:shadow-2xl hover:bg-white fade-in">
-                    <div class="w-full h-48 md:h-56 rounded-2xl md:rounded-3xl overflow-hidden shadow-inner mb-6 md:mb-8 relative">
+                    <div class="w-full h-48 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden shadow-inner mb-6 md:mb-8 relative">
                         <img src="<?= htmlspecialchars($event['poster_event']) ?>" 
                              class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
                              alt="<?= htmlspecialchars($event['nama_event']) ?>">
@@ -127,20 +126,20 @@ $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <?php if(count($past_events) > 0): ?>
-            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                 <?php foreach($past_events as $event): ?>
-                <div class="group relative aspect-[3/4] rounded-[2rem] md:rounded-[3rem] overflow-hidden bg-black shadow-2xl fade-in">
+                <div class="group relative aspect-[3/4] md:aspect-[16/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden bg-black shadow-2xl fade-in">
                     <img src="<?= htmlspecialchars($event['poster_event']) ?>" 
                          class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-30 transition-all duration-1000 group-hover:scale-110"
                          alt="<?= htmlspecialchars($event['nama_event']) ?>">
                     
                     <div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end text-white transition-all duration-500">
                         <span class="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.4em] text-blue-300 mb-2 md:mb-4 block translate-y-4 group-hover:translate-y-0 transition-transform">Success Story</span>
-                        <h3 class="text-xl md:text-2xl font-bold hero-font leading-tight mb-4 md:mb-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 group-hover:text-blue-100">
+                        <h3 class="text-xl md:text-3xl font-bold hero-font leading-tight mb-4 md:mb-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 group-hover:text-blue-100">
                             <?= htmlspecialchars($event['nama_event']) ?>
                         </h3>
                         <div class="overflow-hidden h-0 group-hover:h-12 transition-all duration-700 opacity-0 group-hover:opacity-100">
-                            <p class="text-[10px] md:text-xs text-blue-100/60 font-light italic">
+                            <p class="text-[10px] md:text-sm text-blue-100/60 font-light italic">
                                 Lokasi: <?= htmlspecialchars($event['lokasi']) ?>
                             </p>
                         </div>
