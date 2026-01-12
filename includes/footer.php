@@ -20,12 +20,21 @@ $brand          = $profil['nama_brand'] ?? 'SETIA GROUP';
 $resmi          = $profil['nama_resmi'] ?? 'PT Setia Group Indonesia';
 $desc           = $profil['deskripsi_intro'] ?? 'Partner terbaik untuk setiap momen istimewa Anda.';
 $alamat         = $profil['alamat'] ?? 'Indonesia';
-// Tambahkan variabel alamat cabang
 $alamat_cabang  = $profil['alamat_cabang'] ?? ''; 
 $email          = $profil['email'] ?? 'info@setiagroup.com';
 $telepon        = $profil['telepon'] ?? '08123456789';
 $whatsapp       = $profil['whatsapp'] ?? '081917192999';
 $sosmed         = $profil['sosial_media'] ?? '#';
+
+// --- LOGIKA PERBAIKAN WHATSAPP ---
+// 1. Hapus karakter selain angka
+$wa_clean = preg_replace('/[^0-9]/', '', $whatsapp);
+// 2. Ubah '0' di depan menjadi '62'
+if (substr($wa_clean, 0, 1) == '0') {
+    $wa_clean = '62' . substr($wa_clean, 1);
+}
+// 3. Buat URL final
+$wa_url = "https://wa.me/" . $wa_clean;
 ?>
 
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
@@ -53,7 +62,8 @@ $sosmed         = $profil['sosial_media'] ?? '#';
                         <i class="fa-brands fa-instagram"></i>
                     </a>
                     <?php endif; ?>
-                    <a href="<?= htmlspecialchars($whatsapp) ?>" class="w-9 h-9 rounded-full bg-[#051094] text-white flex items-center justify-center hover:bg-black transition-all duration-300 shadow-lg">
+                    
+                    <a href="<?= $wa_url ?>" target="_blank" class="w-9 h-9 rounded-full bg-[#051094] text-white flex items-center justify-center hover:bg-black transition-all duration-300 shadow-lg">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
                 </div>
