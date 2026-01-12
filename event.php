@@ -2,17 +2,17 @@
 require_once "config/database.php";
 
 /**
- * Logika Pengambilan Data:
- * 1. Ongoing (Current): Mengambil 4 data terbaru (Agar simetris di layout 2 kolom).
- * 2. Archive (Past): Mengambil data setelah 4 data pertama.
+ * Logika Pengambilan Data (KEMBALI KE DEFAULT):
+ * 1. Ongoing: Mengambil 3 data (Agar pas 3 kolom di Desktop).
+ * 2. Archive: Data setelahnya.
  */
 
-// 1. Ambil 4 Event Terbaru (Ongoing/Current)
-$stmt_ongoing = $pdo->query("SELECT * FROM event ORDER BY tanggal_waktu DESC LIMIT 4");
+// 1. Ambil 3 Event Terbaru
+$stmt_ongoing = $pdo->query("SELECT * FROM event ORDER BY tanggal_waktu DESC LIMIT 3");
 $ongoing_events = $stmt_ongoing->fetchAll(PDO::FETCH_ASSOC);
 
-// 2. Ambil Sisa Event (Archive/Past) - Melewati 4 data pertama
-$stmt_past = $pdo->query("SELECT * FROM event ORDER BY tanggal_waktu DESC LIMIT 100 OFFSET 4");
+// 2. Ambil Sisa Event
+$stmt_past = $pdo->query("SELECT * FROM event ORDER BY tanggal_waktu DESC LIMIT 100 OFFSET 3");
 $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -59,10 +59,10 @@ $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
         
         <div class="container mx-auto px-4 relative z-10 fade-in">
             <span class="text-blue-300 letter-spacing-luxury uppercase text-[8px] md:text-[9px] font-bold mb-4 md:mb-6 block">Our Journey & Timeline</span>
-            <h1 class="text-3xl md:text-5xl lg:text-7xl font-bold hero-font mb-4 md:mb-8 leading-tight">
+            <h1 class="text-3xl md:text-7xl font-bold hero-font mb-4 md:mb-8 leading-tight">
                 Dedikasi dalam <br><span class="italic font-light text-blue-200">Setiap Detail.</span>
             </h1>
-            <p class="text-blue-100/60 max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg px-2">
+            <p class="text-blue-100/60 max-w-2xl mx-auto font-light leading-relaxed text-xs md:text-lg px-2">
                 Menelusuri jejak kreasi kami—dari visi yang baru saja terwujud hingga perayaan megah yang telah menjadi sejarah.
             </p>
         </div>
@@ -73,35 +73,39 @@ $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
         <div class="container mx-auto px-4">
             <div class="flex items-center gap-4 md:gap-6 mb-8 md:mb-16 fade-in">
                 <div class="h-[1px] w-10 md:w-16 bg-[#051094]"></div>
-                <h2 class="text-xl md:text-2xl lg:text-3xl font-bold hero-font text-gray-900 tracking-tight">
-                    Latest Engagements <span class="text-gray-400 font-light italic ml-2 md:ml-3 text-sm md:text-base">— Proyek Terbaru</span>
+                <h2 class="text-lg md:text-3xl font-bold hero-font text-gray-900 tracking-tight">
+                    Latest Engagements <span class="text-gray-400 font-light italic ml-2 md:ml-3 text-xs md:text-base">— Proyek Terbaru</span>
                 </h2>
             </div>
 
             <?php if(count($ongoing_events) > 0): ?>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-10">
                 <?php foreach($ongoing_events as $event): ?>
-                <div class="ongoing-border group bg-gray-50 p-6 md:p-8 rounded-tr-[2rem] md:rounded-tr-[3rem] rounded-bl-[1.5rem] md:rounded-bl-[2rem] rounded-br-[1rem] flex flex-col transition-all duration-500 hover:shadow-2xl hover:bg-white fade-in">
-                    <div class="w-full h-48 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden shadow-inner mb-6 md:mb-8 relative">
+                <div class="ongoing-border group bg-gray-50 p-3 md:p-8 rounded-tr-[1.5rem] md:rounded-tr-[3rem] rounded-bl-[1rem] md:rounded-bl-[2rem] rounded-br-[0.5rem] md:rounded-br-[1rem] flex flex-col transition-all duration-500 hover:shadow-2xl hover:bg-white fade-in">
+                    
+                    <div class="w-full h-32 md:h-56 rounded-xl md:rounded-3xl overflow-hidden shadow-inner mb-4 md:mb-8 relative">
                         <img src="<?= htmlspecialchars($event['poster_event']) ?>" 
                              class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
                              alt="<?= htmlspecialchars($event['nama_event']) ?>">
                     </div>
+                    
                     <div>
-                        <div class="flex justify-end items-center mb-4 md:mb-6">
-                            <span class="text-[9px] md:text-[10px] text-gray-400 font-medium uppercase tracking-widest">
+                        <div class="flex justify-end items-center mb-2 md:mb-6">
+                            <span class="text-[8px] md:text-[10px] text-gray-400 font-medium uppercase tracking-widest">
                                 <?= date('M Y', strtotime($event['tanggal_waktu'])) ?>
                             </span>
                         </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4 hero-font leading-snug"><?= htmlspecialchars($event['nama_event']) ?></h3>
-                        <div class="flex items-center gap-3 text-gray-500 text-[10px] md:text-xs font-light mb-6 md:mb-8">
+                        <h3 class="text-sm md:text-2xl font-bold text-gray-900 mb-2 md:mb-4 hero-font leading-snug line-clamp-2 md:line-clamp-none">
+                            <?= htmlspecialchars($event['nama_event']) ?>
+                        </h3>
+                        <div class="flex items-center gap-2 md:gap-3 text-gray-500 text-[8px] md:text-xs font-light mb-4 md:mb-8">
                             <i class="fa-solid fa-location-dot text-[#051094]/50"></i>
-                            <span class="italic tracking-wide"><?= htmlspecialchars($event['lokasi']) ?></span>
+                            <span class="italic tracking-wide truncate"><?= htmlspecialchars($event['lokasi']) ?></span>
                         </div>
                         
-                        <div class="mt-auto pt-4 md:pt-6 border-t border-gray-100">
-                            <a href="galeri.php?id=<?= $event['id_event'] ?>" class="bg-[#051094] text-white px-5 py-3 md:px-6 md:py-3 rounded-full text-[8px] md:text-[9px] font-bold uppercase tracking-widest hover:bg-black transition-all inline-block">
-                                <i class="fa-solid fa-camera-retro mr-2"></i> Lihat Galeri Foto
+                        <div class="mt-auto pt-3 md:pt-6 border-t border-gray-100">
+                            <a href="galeri.php?id=<?= $event['id_event'] ?>" class="bg-[#051094] text-white px-3 py-2 md:px-6 md:py-3 rounded-full text-[7px] md:text-[9px] font-bold uppercase tracking-widest hover:bg-black transition-all inline-block w-full text-center md:w-auto">
+                                <i class="fa-solid fa-camera-retro md:mr-2"></i> <span class="hidden md:inline">Lihat Galeri Foto</span><span class="md:hidden">Galeri</span>
                             </a>
                         </div>
                     </div>
@@ -110,7 +114,7 @@ $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <?php else: ?>
                 <div class="py-8 md:py-12 px-6 md:px-10 border border-dashed border-gray-200 rounded-[2rem] text-center">
-                    <p class="text-gray-400 italic font-light text-sm md:text-base">Belum ada data event terbaru untuk ditampilkan.</p>
+                    <p class="text-gray-400 italic font-light text-sm md:text-base">Belum ada data event terbaru.</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -118,36 +122,36 @@ $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
 
     <section class="py-16 md:py-32 bg-gray-50">
         <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center text-center mb-12 md:mb-24 fade-in">
+            <div class="flex flex-col items-center text-center mb-10 md:mb-24 fade-in">
                 <span class="text-[#051094] font-bold text-[9px] md:text-[10px] uppercase letter-spacing-luxury mb-4 md:mb-6 block">Portfolio Archive</span>
-                <h2 class="text-3xl md:text-4xl lg:text-6xl font-bold hero-font text-gray-900 mb-6 md:mb-8 leading-tight">Jejak Mahakarya</h2>
+                <h2 class="text-3xl md:text-6xl font-bold hero-font text-gray-900 mb-6 md:mb-8 leading-tight">Jejak Mahakarya</h2>
                 <div class="w-16 md:w-20 h-[2px] bg-[#051094] mb-6 md:mb-10"></div>
-                <p class="text-gray-500 max-w-2xl font-light text-sm md:text-lg">Kumpulan perayaan yang telah kami kurasi sebelumnya, membentuk fondasi reputasi kami saat ini.</p>
+                <p class="text-gray-500 max-w-2xl font-light text-xs md:text-lg px-4">Kumpulan perayaan yang telah kami kurasi sebelumnya.</p>
             </div>
 
             <?php if(count($past_events) > 0): ?>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-8">
                 <?php foreach($past_events as $event): ?>
-                <div class="group relative aspect-[3/4] md:aspect-[16/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden bg-black shadow-2xl fade-in">
+                <div class="group relative aspect-[3/4] rounded-[1.5rem] md:rounded-[3rem] overflow-hidden bg-black shadow-2xl fade-in">
                     <img src="<?= htmlspecialchars($event['poster_event']) ?>" 
                          class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-30 transition-all duration-1000 group-hover:scale-110"
                          alt="<?= htmlspecialchars($event['nama_event']) ?>">
                     
-                    <div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end text-white transition-all duration-500">
-                        <span class="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.4em] text-blue-300 mb-2 md:mb-4 block translate-y-4 group-hover:translate-y-0 transition-transform">Success Story</span>
-                        <h3 class="text-xl md:text-3xl font-bold hero-font leading-tight mb-4 md:mb-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 group-hover:text-blue-100">
+                    <div class="absolute inset-0 p-4 md:p-10 flex flex-col justify-end text-white transition-all duration-500">
+                        <span class="text-[7px] md:text-[9px] font-bold uppercase tracking-[0.4em] text-blue-300 mb-1 md:mb-4 block translate-y-4 group-hover:translate-y-0 transition-transform">Success Story</span>
+                        <h3 class="text-sm md:text-2xl font-bold hero-font leading-tight mb-2 md:mb-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 group-hover:text-blue-100 line-clamp-2">
                             <?= htmlspecialchars($event['nama_event']) ?>
                         </h3>
-                        <div class="overflow-hidden h-0 group-hover:h-12 transition-all duration-700 opacity-0 group-hover:opacity-100">
-                            <p class="text-[10px] md:text-sm text-blue-100/60 font-light italic">
+                        <div class="hidden md:block overflow-hidden h-0 group-hover:h-12 transition-all duration-700 opacity-0 group-hover:opacity-100">
+                            <p class="text-xs text-blue-100/60 font-light italic">
                                 Lokasi: <?= htmlspecialchars($event['lokasi']) ?>
                             </p>
                         </div>
-                        <div class="mt-4 md:mt-6 flex items-center justify-between pt-3 md:pt-4 border-t border-white/20">
-                            <span class="text-[9px] md:text-[10px] text-white/40 uppercase tracking-widest font-bold">
+                        <div class="mt-2 md:mt-6 flex items-center justify-between pt-2 md:pt-4 border-t border-white/20">
+                            <span class="text-[8px] md:text-[10px] text-white/40 uppercase tracking-widest font-bold">
                                 <?= date('Y', strtotime($event['tanggal_waktu'])) ?>
                             </span>
-                            <i class="fa-solid fa-arrow-right-long text-white translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500"></i>
+                            <i class="fa-solid fa-arrow-right-long text-white translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 hidden md:block"></i>
                         </div>
                     </div>
                     <a href="galeri.php?id=<?= $event['id_event'] ?>" class="absolute inset-0 z-30"></a>
@@ -162,7 +166,7 @@ $past_events = $stmt_past->fetchAll(PDO::FETCH_ASSOC);
 
     <section class="py-16 md:py-32 bg-white text-center">
         <div class="container mx-auto px-4 fade-in">
-            <h2 class="text-2xl md:text-3xl lg:text-5xl font-bold hero-font text-gray-900 mb-8 md:mb-10 leading-tight">Siap Menciptakan <br>Momen Bersejarah Berikutnya?</h2>
+            <h2 class="text-2xl md:text-5xl font-bold hero-font text-gray-900 mb-8 md:mb-10 leading-tight">Siap Menciptakan <br>Momen Bersejarah Berikutnya?</h2>
             <a href="kontak.php" class="inline-block bg-[#051094] text-white px-10 py-4 md:px-14 md:py-5 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-black transition-all shadow-xl hover:-translate-y-1">
                 Hubungi Kurator Kami
             </a>
