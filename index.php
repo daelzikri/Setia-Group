@@ -141,7 +141,7 @@ $testimonials = $stmt_testi->fetchAll(PDO::FETCH_ASSOC);
         <div class="absolute inset-0 bg-black/60"></div>
         <div class="container mx-auto px-4 py-32 md:py-48 lg:py-64 relative z-10">
             <div class="max-w-4xl mx-auto text-center fade-in">
-                <span class="inline-block tracking-[0.3em] uppercase text-xs md:text-sm mb-4 text-blue-300 font-semibold">Event Organizer Specialist</span>
+                <span class="inline-block tracking-[0.3em] uppercase text-xs md:text-sm mb-4 text-blue-300 font-semibold">EVENT PROFESIONAL</span>
                 <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 md:mb-8 hero-font leading-tight"><?= htmlspecialchars($profil['nama_brand']) ?></h1>
                 <p class="text-lg md:text-xl lg:text-2xl mb-8 md:mb-12 text-gray-200 font-light"><?= htmlspecialchars($profil['tagline']) ?></p>
             </div>
