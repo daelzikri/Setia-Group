@@ -23,16 +23,43 @@ $stmt_testi = $pdo->query("SELECT t.*, k.nama_klien, k.perusahaan FROM testimoni
                      WHERE t.status_tampil = 1 
                      ORDER BY t.created_at DESC LIMIT 3");
 $testimonials = $stmt_testi->fetchAll(PDO::FETCH_ASSOC);
+
+// --- KONFIGURASI SEO OTOMATIS ---
+// Domain sudah disesuaikan dengan setiagroupindonesia.com
+$site_url = "https://setiagroupindonesia.com"; 
+$current_page = $site_url . $_SERVER['REQUEST_URI'];
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($profil['nama_brand']) ?> - Event Profesional</title>
+    
+    <title><?= htmlspecialchars($profil['nama_brand']) ?> - Event Organizer & Planner Profesional</title>
+
+    <link rel="canonical" href="<?= $site_url ?>/" />
+
+    <meta name="description" content="<?= htmlspecialchars($profil['nama_brand']) ?> adalah Event Organizer terpercaya sejak 2005. <?= htmlspecialchars($profil['tagline']) ?>. Melayani event korporat, pemerintahan, dan hiburan berskala internasional.">
+    <meta name="keywords" content="Event Organizer, EO Lombok, EO Jakarta, Setia Group, Jasa Event Planner, Sewa Panggung, Event Production">
+    <meta name="robots" content="index, follow">
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Setia Group" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:title" content="<?= htmlspecialchars($profil['nama_brand']) ?> - Professional Event Organizer">
+    <meta property="og:description" content="<?= htmlspecialchars($profil['tagline']) ?>">
+    <meta property="og:image" content="<?= $site_url ?>/assets/header.jpg">
+    <meta property="og:url" content="<?= $site_url ?>/">
+    <meta property="og:type" content="website">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         body { font-family: 'Inter', sans-serif; color: #1a1a1a; }
         .hero-font { font-family: 'Playfair Display', serif; }
@@ -42,7 +69,7 @@ $testimonials = $stmt_testi->fetchAll(PDO::FETCH_ASSOC);
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Tombol Bulat (Pill-shaped) */
+        /* Tombol Bulat */
         .btn-elegant {
             border-radius: 9999px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -83,7 +110,7 @@ $testimonials = $stmt_testi->fetchAll(PDO::FETCH_ASSOC);
             margin-bottom: 1rem;
         }
 
-        /* --- BAGIAN CAROUSEL CLIENT --- */
+        /* --- CAROUSEL CLIENT --- */
         @keyframes slide {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
@@ -443,8 +470,10 @@ $testimonials = $stmt_testi->fetchAll(PDO::FETCH_ASSOC);
 
         // 2. OTOMATISASI DUPLIKASI LOGO
         const logoTrack = document.getElementById('logoTrack');
-        const originalContent = logoTrack.innerHTML;
-        logoTrack.innerHTML = originalContent + originalContent;
+        if (logoTrack) {
+            const originalContent = logoTrack.innerHTML;
+            logoTrack.innerHTML = originalContent + originalContent;
+        }
 
         // 3. SMOOTH SCROLL
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
